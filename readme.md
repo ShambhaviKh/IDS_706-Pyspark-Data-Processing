@@ -141,4 +141,10 @@ The `.explain()` output confirmed Spark's optimizations:
 5. **ML Output:**
    ![ML outputs](Images/lr.png)
 
+6. **Action and Transformation Output:**
+   ![outputs](Images/AnT.png)
+
+7. **Complex Aggregation Output:**
+   ![outputs](Images/dataagg.png)
+
 
