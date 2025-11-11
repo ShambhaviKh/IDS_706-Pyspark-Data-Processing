@@ -11,7 +11,6 @@
 7. [Key Findings](#key-findings)
 8. [Query Details and Optimization](#query-details-and-optimization)
 9. [Output and Results](#output-and-results)
-10. [Screenshots](#screenshots)
 
 ## Project Overview
 
@@ -19,7 +18,7 @@ This project implements a PySpark-based analytical pipeline using the Databricks
 
 ## Dataset Description and Source
 
-The dataset used in this project contains trip records (such as NYC Taxi data) including:
+The dataset used in this project NYC Yellow Taxi data taken from Kaggle and includes:
 
 * `VendorID`
 * `tpep_pickup_datetime`
@@ -125,20 +124,18 @@ The `.explain()` output confirmed Spark's optimizations:
 
 ## Output and Results
 
-| VendorID | Trip Count | Avg Distance (mi) | Total Revenue ($) |
-| -------- | ---------- | ----------------- | ----------------- |
-| 1        | 305,420    | 3.28              | 2,145,908.34      |
-| 2        | 154,870    | 3.06              | 1,058,762.45      |
-
-## Screenshots
-
-Add the following screenshots for documentation:
-
 1. **Query Execution Plan:**
-   *Include screenshot of `.explain()` output.*
+   ![Alt text](images/explain.png)
 
 2. **Successful Pipeline Execution:**
-   *Include screenshot from Databricks workspace showing job completion.*
+   
 
-3. **Query Details View (Optimization):**
-   *Include Spark UI SQL tab view showing optimized physical plan.*
+3. **Query Details view showing optimization**
+![Alt text](images/query.png)
+
+4. **SQL Outputs**
+![Alt text](sqlop/query.png)
+
+5. **ML output**
+![Alt text](lr/query.png)
+
