@@ -127,18 +127,18 @@ The `.explain()` output confirmed Spark's optimizations:
 ## Screenshots
 
 1. **Query Execution Plan:**
-   ![Query execution](images/explain.png)
+   ![Query execution](Images/explain.png)
 
 2. **Successful Pipeline Execution:**
    *(Add image if available)*
 
 3. **Query Details View Showing Optimization:**
-   ![Optimisation](images/query.png)
+   ![Optimisation](Images/query.png)
 
 4. **SQL Outputs:**
-   ![SQL outputs](images/sqlop.png)
+   ![alt text](Images/sqlop.png)
 
 5. **ML Output:**
-   ![ML outputs](images/lr.png)
+   ![ML outputs](Images/lr.png)
 
 
