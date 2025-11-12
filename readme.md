@@ -243,25 +243,22 @@ The `.explain()` output confirmed Spark's optimizations:
 
 ## Screenshots
 
-1. **Query Execution Plan:**
+1. **Query Execution Plan:** **Successful Pipeline Execution:**
    ![Query execution](Images/explain.png)
 
-2. **Successful Pipeline Execution:**
-   *(Add image if available)*
-
-3. **Query Details View Showing Optimization:**
+2. **Query Details View Showing Optimization:**
    ![Optimisation](Images/query.png)
 
-4. **SQL Outputs:**
+3. **SQL Outputs:**
    ![alt text](Images/sqlop.png)
 
-5. **ML Output:**
+4. **ML Output:**
    ![ML outputs](Images/lr.png)
 
-6. **Action and Transformation Output:**
+5. **Action and Transformation Output:**
    ![outputs](Images/AnT.png)
 
-7. **Complex Aggregation Output:**
+6. **Complex Aggregation Output:**
    ![outputs](Images/dataagg.png)
 
 
