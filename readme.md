@@ -8,7 +8,7 @@
 4. [Data Processing Workflow](#data-processing-workflow)
 5. [Performance Analysis](#performance-analysis)
 6. [Optimization Analysis](#optimization-analysis)
-7. [Actions and Transformation](#Transformations and Actions)
+7. [Actions and Transformation](#Transformations-and-Actions)
 8. [Key Findings](#key-findings)
 9. [Query Details and Optimization](#query-details-and-optimization)
 10. [Output and Results](#output-and-results)
