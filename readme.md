@@ -8,9 +8,10 @@
 4. [Data Processing Workflow](#data-processing-workflow)
 5. [Performance Analysis](#performance-analysis)
 6. [Optimization Analysis](#optimization-analysis)
-7. [Key Findings](#key-findings)
-8. [Query Details and Optimization](#query-details-and-optimization)
-9. [Output and Results](#output-and-results)
+7. [Actions and Transformation](#Transformations and Actions)
+8. [Key Findings](#key-findings)
+9. [Query Details and Optimization](#query-details-and-optimization)
+10. [Output and Results](#output-and-results)
 
 ## Project Overview
 
@@ -184,6 +185,21 @@ The DataFrame `df_large` was used in multiple actions without caching, causing S
 ### Bottleneck 4: Large Shuffle Operations
 
 Initial shuffle operations moved 1.2 GB of data across the network during aggregations, creating a significant bottleneck. Spark UI metrics showed shuffle read time of 12.3 seconds compared to executor compute time of only 6.8 seconds, indicating that data movement overhead was 1.8x the actual processing time. This was addressed through multiple optimizations: applying filter pushdown to reduce data volume before shuffle (filters like `trip_distance > 0` and `fare_amount > 0` were pushed to the FileScan level), using broadcast joins for small dimension tables instead of shuffle-based joins, and enabling column pruning to load only necessary columns (VendorID, trip_distance, total_amount instead of all 18 columns). These combined optimizations reduced shuffle size from 1.2 GB to 780 MB, a 35% reduction that significantly improved network efficiency and overall query performance.
+
+### Transformations and Actions
+
+PySpark operations are divided into two categories: **Transformations** (lazy evaluation) and **Actions** (trigger execution). 
+### Transformations
+
+Transformations are lazy operations that define a new RDD or DataFrame from an existing one without immediately computing results. Instead of executing immediately, transformations build up a logical execution plan called a Directed Acyclic Graph (DAG), which Spark optimizes before execution. Transformations are divided into two categories: narrow transformations, which do not require data movement across partitions (e.g., map, filter, select), and wide transformations, which require shuffling data across the cluster (e.g., groupBy, join, repartition). Examples from our pipeline include filtering records with `df.filter(col("fare_amount") > 0)`, selecting specific columns with `df.select("VendorID", "trip_distance")`, and grouping data with `df.groupBy("VendorID")`. The lazy nature of transformations allows Spark to optimize the entire pipeline by combining operations, pushing filters down to the data source, and pruning unnecessary columns before execution.
+
+### Actions
+
+Actions are operations that trigger the actual execution of all preceding transformations and return results to the driver program or write data to external storage. Unlike transformations, actions are eager operations that force Spark to materialize the data and perform computations. Common actions include `count()` which returns the number of rows, `show()` which displays data in a tabular format, `collect()` which retrieves all data to the driver (use cautiously with large datasets), and `write()` which saves data to storage systems like HDFS, S3, or local filesystem. In our pipeline, we used `df_large.count()` to materialize cached data, `result_large.show()` to display aggregation results, and write operations to persist output. Actions create a boundary in the execution flow—everything before an action is planned but not executed until the action is called.
+
+### Lazy Evaluation
+
+Lazy evaluation is a core principle in Spark where transformations are not executed immediately when called; instead, Spark records the sequence of operations and only executes them when an action is triggered. This design enables Spark's Catalyst optimizer to analyze the entire computation pipeline and create an optimized physical execution plan before processing any data. The benefits are substantial: Spark can push filters down to the data source to read less data, prune columns to reduce memory usage, combine multiple operations into a single stage to minimize shuffles, and reorder operations for better performance. For example, in our pipeline, when we chain `df.filter().select().groupBy().agg()`, nothing happens until we call `.show()` or `.count()`. At that moment, Spark examines all transformations, optimizes the plan (applying filter pushdown and column pruning), and executes everything efficiently in the fewest possible stages. Without lazy evaluation, each transformation would execute immediately and independently, missing opportunities for optimization and potentially reading and processing data multiple times unnecessarily.
 
 
 ## Key Findings
